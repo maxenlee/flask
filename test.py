@@ -47,7 +47,7 @@ data = {
 }
 
 # URL pointing to your Flask application's process_text endpoint
-url = 'http://127.0.0.1:5000/process_text'
+url = 'http://127.0.0.1:4000/process_text'
 
 # Send a POST request with the JSON data
 response = requests.post(url, json=data)
