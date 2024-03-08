@@ -3,6 +3,7 @@ import pandas as pd
 import unittest
 import os
 from main import create_app
+import nltk
 
 
 # x = pd.Series(['Agoobi Agoobo', 'choo choo'])
