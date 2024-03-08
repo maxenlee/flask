@@ -1,20 +1,37 @@
+import boto3
+import os
 from flask import Flask, request, jsonify
 import pandas as pd
-import textblob
 from textblob import TextBlob
 import pickle
-import nltk
-
-nltk.download('omw-1.4')
+import io
 
 def create_app():
     app = Flask(__name__)
 
     def pickle_blobber(series):
+        # Convert series to TextBlob, process, and pickle
         word_pickle = series.apply(lambda x: TextBlob(x)).apply(lambda tb: ' '.join([word.singularize() for word in tb.words]))
-        with open('word_pickle.p', 'wb') as f:
-            pickle.dump(word_pickle, f)
-        return "Processed and pickled successfully."
+        pickled_data = pickle.dumps(word_pickle)
+        
+        # Access the secret (e.g., API keys) from environment variables
+        access_key = os.getenv('SPACES_ACCESS_KEY_ID')
+        secret_key = os.getenv('SPACES_SECRET_ACCESS_KEY')
+        
+        # Configure boto3 client
+        session = boto3.session.Session()
+        client = session.client('s3',
+                                region_name='nyc3',  # Example region
+                                endpoint_url='https://nyc3.digitaloceanspaces.com',  # Example endpoint
+                                aws_access_key_id=access_key,
+                                aws_secret_access_key=secret_key)
+        
+        # Create an in-memory file
+        with io.BytesIO(pickled_data) as f:
+            # Upload to DigitalOcean Spaces
+            client.upload_fileobj(f, 'your-bucket-name', 'word_pickle.p')
+        
+        return "Processed and pickled successfully, uploaded to Spaces."
 
     @app.route('/process_text', methods=['POST'])
     def process_text():
