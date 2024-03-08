@@ -1,8 +1,8 @@
-import main as foo
+import pickle_blob as foo
 import pandas as pd
 import unittest
 import os
-from main import create_app
+from pickle_blob import create_app
 import nltk
 
 
@@ -45,8 +45,9 @@ import requests
 data = {
     "texts": ["Cats love to chase mice.", "Dogs love to chase cats."]
 }
-
 # URL pointing to your Flask application's process_text endpoint
+# url = 'https://laughing-dollop-7vwpqrrx9wxfpg9w-5000.app.github.dev/'
+
 url = 'http://127.0.0.1:4000/process_text'
 
 # Send a POST request with the JSON data
