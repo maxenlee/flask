@@ -15,14 +15,14 @@ def create_app():
         pickled_data = pickle.dumps(word_pickle)
         
         # Access the secret (e.g., API keys) from environment variables
-        access_key = os.getenv('SPACES_ACCESS_KEY_ID')
-        secret_key = os.getenv('SPACES_SECRET_ACCESS_KEY')
+        access_key = os.getenv('PICKLEJAR_ACCESS')
+        secret_key = os.getenv('PICKLEJAR_SECRET')
         
         # Configure boto3 client
         session = boto3.session.Session()
         client = session.client('s3',
                                 region_name='nyc3',  # Example region
-                                endpoint_url='https://nyc3.digitaloceanspaces.com',  # Example endpoint
+                                endpoint_url='https://picklejar.nyc3.digitaloceanspaces.com',  # Example endpoint
                                 aws_access_key_id=access_key,
                                 aws_secret_access_key=secret_key)
         
@@ -45,3 +45,4 @@ def create_app():
 if __name__ == '__main__':
     app = create_app()
     app.run(debug=True)
+
