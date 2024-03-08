@@ -7,29 +7,24 @@ import nltk
 
 nltk.download('omw-1.4')
 
-app = Flask(__name__)
+def create_app():
+    app = Flask(__name__)
 
+    def pickle_blobber(series):
+        word_pickle = series.apply(lambda x: TextBlob(x)).apply(lambda tb: ' '.join([word.singularize() for word in tb.words]))
+        with open('word_pickle.p', 'wb') as f:
+            pickle.dump(word_pickle, f)
+        return "Processed and pickled successfully."
 
-def pickle_blobber(series):
-    # TextBlob(series)
-    blobber = series.apply(TextBlob)
-    blobber.apply(lambda x: x.words)
+    @app.route('/process_text', methods=['POST'])
+    def process_text():
+        data = request.get_json()
+        text_series = pd.Series(data['texts'])
+        response_message = pickle_blobber(text_series)
+        return jsonify({'message': response_message})
 
-    # blobber.apply(lambda x: [x.singularize() for x in x.words])
-
-    # word = blobber.apply(lambda tb: ' '.join())
-    # with open('word_pickle.p', 'wb') as f:
-    #     pickle.dump(word_pickle, f)
-    return "Processed and pickled successfully."
-
-
-@app.route('/process_text', methods=['POST'])
-def process_text():
-    data = request.get_json()
-    text_series = pd.Series(data['texts'])
-    response_message = pickle_blobber(text_series)
-    return jsonify({'message': response_message})
-
+    return app
 
 if __name__ == '__main__':
+    app = create_app()
     app.run(debug=True)
