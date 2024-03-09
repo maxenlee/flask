@@ -14,10 +14,10 @@ def process_and_upload_csv_in_chunks(url, chunksize=10000, folder_name='processe
     session = boto3.session.Session()
     client = session.client('s3',
                             region_name='nyc3',
-                            endpoint_url='https://picklejar.nyc3.digitaloceanspaces.com',
+                            endpoint_url='https://nyc3.digitaloceanspaces.com',
                             aws_access_key_id=access_key,
                             aws_secret_access_key=secret_key)
-    bucket_name = 'your-bucket-name'  # Replace with your actual bucket name
+    bucket_name = 'picklejar'  # Replace with your actual bucket name
     
     # Optionally, include a timestamp in the folder name for unique folder creation each run
     timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
