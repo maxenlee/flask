@@ -39,7 +39,7 @@ import nltk
 
 
 
-import requests
+
 
 # Example text data to process and upload
 data = {

@@ -1,0 +1,26 @@
+get Activation id
+
+curl -X POST "https://faas-sfo3-7872a1dd.doserverless.co/api/v1/namespaces/fn-809878d6-0b8d-4813-b7dc-78e71d4a6179/actions/sample/hello?blocking=false" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Basic ZjA1MjlkM2EtMzk1MC00ZmRkLTg2M2ItZDdlYzU1MTc3YTQ5OmNGQmFBRWRNSjhCY2MwR2FWTjIzOXdVRGxjTGxyZTBJSXJFUnRMU1N5bGw5SDlSbGVFT3F6b1JhSmNOU2NEbzY="
+
+Retrieve Activation Records Using curl and the REST API
+
+curl -X GET "https://<your-server>.doserverless.co/api/v1/namespaces/<your-namespace>/activations/<your-activation-id>" \
+   -H "Authorization: Basic <your-token-here>"
+
+
+curl -X GET "https://faas-sfo3-7872a1dd.doserverless.co/api/v1/namespaces/fn-809878d6-0b8d-4813-b7dc-78e71d4a6179/activations/af5e1a1b97d74ab19e1a1b97d78ab1a3" \
+  -H "Authorization: Basic ZjA1MjlkM2EtMzk1MC00ZmRkLTg2M2ItZDdlYzU1MTc3YTQ5OmNGQmFBRWRNSjhCY2MwR2FWTjIzOXdVRGxjTGxyZTBJSXJFUnRMU1N5bGw5SDlSbGVFT3F6b1JhSmNOU2NEbzY="
+
+
+returns:
+{"activationId":"af5e1a1b97d74ab19e1a1b97d78ab1a3","annotations":[{"key":"path","value":"fn-809878d6-0b8d-4813-b7dc-78e71d4a6179/sample/hello"},{"key":"waitTime","value":23},{"key":"uuid","value":"7def16fb-b805-4861-9074-195a0412ac36"},{"key":"entry","value":"main"},{"key":"user_id","value":"15797448"},{"key":"gbs","value":0.025},{"key":"kind","value":"python:3.9"},{"key":"timeout","value":false},{"key":"limits","value":{"logs":16,"memory":256,"timeout":3000}}],"duration":2,"end":1709939336102,"logs":["2024-03-08T23:08:56.101662785Z stdout: Hello stranger!"],"name":"hello","namespace":"fn-809878d6-0b8d-4813-b7dc-78e71d4a6179","publish":false,"response":{"result":{"body":"Hello stranger!"},"size":27,"status":"success","success":true},"start":1709939336099,"subject":"7def16fb-b805-4861-9074-195a0412ac36","version":"0.0.1"}
+
+get last 3:
+
+curl -X GET "https://<your-server>.doserverless.co/api/v1/namespaces/<your-namespace>/activations?limit=3" \
+        -H "Authorization: Basic <your-token>"
+
+curl -X GET "https://faas-sfo3-7872a1dd.doserverless.co/api/v1/namespaces/fn-809878d6-0b8d-4813-b7dc-78e71d4a6179/activations?limit=3" \
+  -H "Authorization: Basic ZjA1MjlkM2EtMzk1MC00ZmRkLTg2M2ItZDdlYzU1MTc3YTQ5OmNGQmFBRWRNSjhCY2MwR2FWTjIzOXdVRGxjTGxyZTBJSXJFUnRMU1N5bGw5SDlSbGVFT3F6b1JhSmNOU2NEbzY="
